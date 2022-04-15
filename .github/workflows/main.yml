@@ -40,9 +40,6 @@ jobs:
             - name: 'Authenticate Dev Hub'
               run: sfdx auth:sfdxurl:store -f ./DEVHUB_SFDX_URL.txt -a devhub -d
               
-            #- name: 'Set instance url Dev Hub'
-              #run: 'sfdx force:config:set instanceUrl=https://boobzack-dev-ed.my.salesforce.com'
-
             - name: 'Deploy to Dev Hub'
               run: "sfdx force:source:deploy --sourcepath ./force-app/main/default -l RunLocalTests -u devhub"              
               
