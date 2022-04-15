@@ -41,4 +41,4 @@ jobs:
               run: sfdx auth:sfdxurl:store -f ./DEVHUB_SFDX_URL.txt -a devhub -d
               
             - name: 'Deploy to Dev Hub'
-              run: "sfdx force:source:deploy --sourcepath ./force-app/main/default -l RunLocalTests -u devhub"  
+              run: "sfdx force:source:deploy --sourcepath ./force-app/main/default -u devhub"  
