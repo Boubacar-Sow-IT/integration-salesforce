@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI-Deploy-To-Product
 
 # Controls when the workflow will run
 on:
@@ -18,6 +18,19 @@ jobs:
             - name: 'Checkout source code'
               uses: actions/checkout@v2
               
+            # Run PMD scan
+            - name: 'Run PMD scan'
+              uses: pmd/pmd-github-action@v1.2.1
+              id: pmd
+              with:
+                  sourcePath: 'force-app'
+                  rulesets: 'ruleset.xml'
+
+            # Check for PMD violations
+            - name: 'Check for PMD violations'
+              if: steps.pmd.outputs.violations != 0
+              run: exit 1
+              
             # Install Salesforce CLI
             - name: 'Install Salesforce CLI'
               run: |
@@ -26,6 +39,7 @@ jobs:
                   tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
                   echo "$HOME/sfdx/bin" >> $GITHUB_PATH
                   ~/sfdx/bin/sfdx version
+                  
             # Store secret for dev hub
             - name: 'Populate auth file with DEVHUB_SFDX_URL secret'
               shell: bash
